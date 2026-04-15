@@ -686,13 +686,14 @@ class OrderSql
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, orderId);
             ResultSet rs = ps.executeQuery();
-            System.out.printf("%-10s %-10s %-10s", "Product", "quantity", "Price");
+            System.out.printf("%-20s %-20s %-20s%n", "Product", "quantity", "Price");
+            System.out.println("-".repeat(105));
             while (rs.next())
             {
                 productId = rs.getInt("product_id");
                 String productName = productName(productId);
-                System.out.printf("%-10s %-10d ₹%-9.2f", productName, rs.getInt("quantity"), rs.getDouble("price_at_purchase"));
-                System.out.println(productName+"    "+rs.getInt("quantity")+"    ₹"+rs.getDouble("price_at_purchase"));
+                System.out.printf("%-20s %-20d ₹%-19.2f%n", productName, rs.getInt("quantity"), rs.getDouble("price_at_purchase"));
+
             }
         }
         catch(SQLException e)
@@ -736,7 +737,7 @@ public class GroceryInventory2
                         System.out.println("Products List:");
                         var product1 = pd.getAllProducts();
                         System.out.printf("%-20s %-20s %-20s %-20s %-25s%n", "Product", "Category", "Stock", "Price", "Exp Date");
-                        System.out.println("-".repeat(60));
+                        System.out.println("-".repeat(105));
                         for (Products p : product1)
                         {
                             System.out.printf("%-20s %-20s %-20d ₹%-19.2f %-25s%n",p.productName, p.category, p.stock, p.price, p.expDate);
@@ -758,7 +759,7 @@ public class GroceryInventory2
                         LocalDate expDate = LocalDate.parse(sc.next());
                         var product2 = pd.addProduct(name2, cat, price, stock, expDate);
                         System.out.printf("%-20s %-20s %-20s %-20s %-20s %-25s%n", "Id", "Product", "Category", "Stock", "Price", "Exp Date");
-                        System.out.println("-".repeat(70));
+                        System.out.println("-".repeat(125));
                         for (Products p : product2)
                         {
                             System.out.printf("%-20d %-20s %-20s %-20d ₹%-19.2f %-25s%n",p.productId, p.productName, p.category, p.stock, p.price, p.expDate);
@@ -776,7 +777,7 @@ public class GroceryInventory2
                         var product3 = pd.addExistingProduct(name3, quantity, expDate3);
                         System.out.println(name3);
                         System.out.printf("%-20s %-20s %-20s %-20s %-20s %-25s%n", "Id", "Product", "Category", "Stock", "Price", "Exp Date");
-                        System.out.println("-".repeat(70));
+                        System.out.println("-".repeat(125));
                         for (Products p : product3)
                         {
                             System.out.printf("%-20d %-20s %-20s %-20d ₹%-19.2f %-25s%n",p.productId, p.productName, p.category, p.stock, p.price, p.expDate);
@@ -791,11 +792,11 @@ public class GroceryInventory2
                         float dis = sc.nextFloat();
                         System.out.println("Updated Details:");
                         var product4 = pd.changeDiscount(name4, dis);
-                        System.out.printf("%-20s %-20s %-20s%n", "Product", "Discount", "Price");
-                        System.out.println("-".repeat(20));
+                        System.out.printf("%-20s %-20s %-20s%n", "Product", "Discount(in %)", "Price");
+                        System.out.println("-".repeat(60));
                         for (Products p : product4)
                         {
-                            System.out.printf("%-20s %-19.2f%1s ₹%-19.2f%n", p.productName, p.discount, "%", p.price);
+                            System.out.printf("%-20s %-19.2f ₹%-19.2f%n", p.productName, p.discount, p.price);
                         }
                         System.out.println("\n");
                         break;
@@ -808,7 +809,7 @@ public class GroceryInventory2
                         System.out.println("Updated Details:");
                         var product5 = pd.changePrice(name5, price4);
                         System.out.printf("%-20s %-20s%n", "Product", "Price");
-                        System.out.println("-".repeat(20));
+                        System.out.println("-".repeat(40));
                         for (Products p : product5)
                         {
                             System.out.printf("%-20s ₹%-19.2f%n", p.productName,p.price);
@@ -821,7 +822,7 @@ public class GroceryInventory2
                         if (product6.size() != 0)
                         {
                             System.out.printf("%-20s %-20s%n", "Product", "Stock");
-                            System.out.println("-".repeat(20));
+                            System.out.println("-".repeat(40));
                             for (Products p : product6)
                             {
                                 System.out.printf("%-20s %-20d%n", p.productName,p.stock);
@@ -839,7 +840,7 @@ public class GroceryInventory2
                         if (product7.size() != 0)
                         {
                             System.out.printf("%-20s %-25s%n", "Product", "Exp Date");
-                            System.out.println("-".repeat(20));
+                            System.out.println("-".repeat(45));
                             for (Products p : product7)
                             {
                                 System.out.printf("%-20s %-25s%n", p.productName, p.expDate);
@@ -897,7 +898,7 @@ public class GroceryInventory2
                             System.out.println("Products List:");
                             var product1 = pd.getAllProducts();
                             System.out.printf("%-20s %-20s %-20s %-20s %-25s%n", "Product", "Category", "Stock", "Price", "Exp Date");
-                            System.out.println("-".repeat(60));
+                            System.out.println("-".repeat(105));
                             for (Products p : product1)
                             {
                                 System.out.printf("%-20s %-20s %-20d ₹%-19.2f %-25s%n",p.productName, p.category, p.stock, p.price, p.expDate);
@@ -910,7 +911,7 @@ public class GroceryInventory2
                             var product2 = pd.getAllProducts();
                             ArrayList<String> productNames = new ArrayList<>();
                             System.out.printf("%-20s %-20s %-20s %-20s %-20s %-25s%n", "Id", "Product", "Category", "Stock", "Price", "Exp Date");
-                            System.out.println("-".repeat(70));
+                            System.out.println("-".repeat(125));
                             for (Products p : product2)
                             {
                                 stock = p.stock;
@@ -950,7 +951,7 @@ public class GroceryInventory2
                             int orderId = 0;
                             var list1 = od.reviewOrders(Name);
                             System.out.printf("%-20s %-20s %-25s%n", "Id", "Total Amount", "Date");
-                            System.out.println("-".repeat(40));
+                            System.out.println("-".repeat(65));
                             for(Order o:list1)
                             {
                                 orderId = o.orderId;
@@ -960,7 +961,7 @@ public class GroceryInventory2
                             int id = sc.nextInt();
                             var list2 = od.reviewOrderItems(id);
                             System.out.printf("%-20s %-20s %-20s%n", "Product", "Quantity", "Price");
-                            System.out.println("-".repeat(35));
+                            System.out.println("-".repeat(60));
                             for(OrderedItem oi:list2)
                             {
                                 String name = od.productName(oi.productId);
@@ -1002,7 +1003,7 @@ public class GroceryInventory2
                                 System.out.println("Products List:");
                                 var product1 = pd.getAllProducts();
                                 System.out.printf("%-20s %-20s %-20s %-20s %-25s%n", "Product", "Category", "Stock", "Price", "Exp Date");
-                                System.out.println("-".repeat(60));
+                                System.out.println("-".repeat(105));
                                 for (Products p : product1)
                                 {
                                     System.out.printf("%-20s %-20s %-20d ₹%-19.2f %-25s%n",p.productName, p.category, p.stock, p.price, p.expDate);
@@ -1015,7 +1016,7 @@ public class GroceryInventory2
                                 var product2 = pd.getAllProducts();
                                 ArrayList<String> productNames = new ArrayList<>();
                                 System.out.printf("%-20s %-20s %-20s %-20s %-20s %-25s%n", "Id", "Product", "Category", "Stock", "Price", "Exp Date");
-                                System.out.println("-".repeat(70));
+                                System.out.println("-".repeat(125));
                                 for (Products p : product2)
                                 {
                                     stock = p.stock;
@@ -1055,7 +1056,7 @@ public class GroceryInventory2
                                 int orderId = 0;
                                 var list1 = od.reviewOrders(customerName);
                                 System.out.printf("%-20s %-20s %-25s%n", "Id", "Total Amount", "Date");
-                                System.out.println("-".repeat(40));
+                                System.out.println("-".repeat(65));
                                 for(Order o:list1)
                                 {
                                     orderId = o.orderId;
@@ -1065,7 +1066,7 @@ public class GroceryInventory2
                                 int id = sc.nextInt();
                                 var list2 = od.reviewOrderItems(id);
                                 System.out.printf("%-20s %-20s %-20s%n", "Product", "Quantity", "Price");
-                                System.out.println("-".repeat(35));
+                                System.out.println("-".repeat(60));
                                 for(OrderedItem oi:list2)
                                 {
                                     String name = od.productName(oi.productId);
@@ -1085,6 +1086,10 @@ public class GroceryInventory2
                                 System.out.println("Choose from given options.\n");
                         }
                     }
+                }
+                else
+                {
+                    System.out.println("Please enter appropriate name and password.");
                 }
             }
         }
