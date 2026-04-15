@@ -1,3 +1,13 @@
+## 🔗 Dependencies
+
+- MySQL Connector/J (JDBC Driver)
+
+Download from:
+https://dev.mysql.com/downloads/connector/j/
+Note:
+Choose- Platform Independant for windows and download ZIP file
+
+
 # Grocery Inventory Management System
 
 ## 📌 Description
