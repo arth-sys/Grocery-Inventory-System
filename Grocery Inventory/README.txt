@@ -50,7 +50,8 @@ It allows shopkeepers to manage products and customers to place orders efficient
 1. Open MySQL Workbench
 2. Import `database.sql`
 3. Open project in IntelliJ
-4. Run `GroceryInventory2.java`
+4. Add .jar file in library (download from given link).
+5. Run `GroceryInventory2.java`
 
 ---
 
