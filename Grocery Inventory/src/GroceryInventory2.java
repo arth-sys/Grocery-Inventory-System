@@ -357,7 +357,31 @@ class CustomerSql
 
 class OrderSql
 {
-
+    public boolean productVerification(String productName)
+    {
+        boolean isThere = false;
+        try
+        {
+            Connection con = DBconnection.getConnection();
+            String query = "SELECT product_name FROM product";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            while(rs.next())
+            {
+                if(productName != null)
+                {
+                    if (productName.equalsIgnoreCase(rs.getString("product_name"))) {
+                        isThere = true;
+                    }
+                }
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+        return isThere;
+    }
     public void orderIdCreation(String customerName)
     {
         ArrayList<Customer> list1 = new ArrayList<>();
@@ -749,73 +773,100 @@ public class GroceryInventory2
                         System.out.print("Name:");
                         sc.nextLine();
                         String name2 = sc.nextLine();
-                        System.out.print("Category:");
-                        String cat = sc.nextLine();
-                        System.out.print("Price:");
-                        double price = sc.nextDouble();
-                        System.out.print("Stock:");
-                        int stock = sc.nextInt();
-                        System.out.print("Exp Date:");
-                        LocalDate expDate = LocalDate.parse(sc.next());
-                        var product2 = pd.addProduct(name2, cat, price, stock, expDate);
-                        System.out.printf("%-20s %-20s %-20s %-20s %-20s %-25s%n", "Id", "Product", "Category", "Stock", "Price", "Exp Date");
-                        System.out.println("-".repeat(125));
-                        for (Products p : product2)
+                        if(!od.productVerification(name2))
                         {
-                            System.out.printf("%-20d %-20s %-20s %-20d ₹%-19.2f %-25s%n",p.productId, p.productName, p.category, p.stock, p.price, p.expDate);
+                            System.out.print("Category:");
+                            String cat = sc.nextLine();
+                            System.out.print("Price:");
+                            double price = sc.nextDouble();
+                            System.out.print("Stock:");
+                            int stock = sc.nextInt();
+                            System.out.print("Exp Date:");
+                            LocalDate expDate = LocalDate.parse(sc.next());
+                            var product2 = pd.addProduct(name2, cat, price, stock, expDate);
+                            System.out.printf("%-20s %-20s %-20s %-20s %-20s %-25s%n", "Id", "Product", "Category", "Stock", "Price", "Exp Date");
+                            System.out.println("-".repeat(125));
+                            for (Products p : product2) {
+                                System.out.printf("%-20d %-20s %-20s %-20d ₹%-19.2f %-25s%n", p.productId, p.productName, p.category, p.stock, p.price, p.expDate);
+                            }
+                            System.out.println("\n");
+                            break;
                         }
-                        System.out.println("\n");
-                        break;
+                        else
+                        {
+                            System.out.println("Product already exists.");
+                            break;
+                        }
                     case 3:
                         System.out.print("Enter name of existing product:");
                         sc.nextLine();
                         String name3 = sc.nextLine();
-                        System.out.print("Enter quantity:");
-                        int quantity = sc.nextInt();
-                        System.out.print("New Exp Date:");
-                        LocalDate expDate3 = LocalDate.parse(sc.next());
-                        var product3 = pd.addExistingProduct(name3, quantity, expDate3);
-                        System.out.println(name3);
-                        System.out.printf("%-20s %-20s %-20s %-20s %-20s %-25s%n", "Id", "Product", "Category", "Stock", "Price", "Exp Date");
-                        System.out.println("-".repeat(125));
-                        for (Products p : product3)
+                        if(od.productVerification(name3))
                         {
-                            System.out.printf("%-20d %-20s %-20s %-20d ₹%-19.2f %-25s%n",p.productId, p.productName, p.category, p.stock, p.price, p.expDate);
+                            System.out.print("Enter quantity:");
+                            int quantity = sc.nextInt();
+                            System.out.print("New Exp Date:");
+                            LocalDate expDate3 = LocalDate.parse(sc.next());
+                            var product3 = pd.addExistingProduct(name3, quantity, expDate3);
+                            System.out.println(name3);
+                            System.out.printf("%-20s %-20s %-20s %-20s %-20s %-25s%n", "Id", "Product", "Category", "Stock", "Price", "Exp Date");
+                            System.out.println("-".repeat(125));
+                            for (Products p : product3) {
+                                System.out.printf("%-20d %-20s %-20s %-20d ₹%-19.2f %-25s%n", p.productId, p.productName, p.category, p.stock, p.price, p.expDate);
+                            }
+                            System.out.println("\n");
+                            break;
                         }
-                        System.out.println("\n");
-                        break;
+                        else
+                        {
+                            System.out.println("No such existing product");
+                            break;
+                        }
                     case 4:
                         System.out.print("Product Name:");
                         sc.nextLine();
                         String name4 = sc.nextLine();
-                        System.out.print("New Discount (in %):");
-                        float dis = sc.nextFloat();
-                        System.out.println("Updated Details:");
-                        var product4 = pd.changeDiscount(name4, dis);
-                        System.out.printf("%-20s %-20s %-20s%n", "Product", "Discount(in %)", "Price");
-                        System.out.println("-".repeat(60));
-                        for (Products p : product4)
+                        if(od.productVerification(name4))
                         {
-                            System.out.printf("%-20s %-19.2f ₹%-19.2f%n", p.productName, p.discount, p.price);
+                            System.out.print("New Discount (in %):");
+                            float dis = sc.nextFloat();
+                            System.out.println("Updated Details:");
+                            var product4 = pd.changeDiscount(name4, dis);
+                            System.out.printf("%-20s %-20s %-20s%n", "Product", "Discount(in %)", "Price");
+                            System.out.println("-".repeat(60));
+                            for (Products p : product4) {
+                                System.out.printf("%-20s %-19.2f ₹%-19.2f%n", p.productName, p.discount, p.price);
+                            }
+                            System.out.println("\n");
+                            break;
                         }
-                        System.out.println("\n");
-                        break;
+                        else
+                        {
+                            System.out.println("No such product exists.");
+                            break;
+                        }
                     case 5:
                         System.out.print("Product Name:");
                         sc.nextLine();
                         String name5 = sc.nextLine();
-                        System.out.print("New Price:");
-                        Double price4 = sc.nextDouble();
-                        System.out.println("Updated Details:");
-                        var product5 = pd.changePrice(name5, price4);
-                        System.out.printf("%-20s %-20s%n", "Product", "Price");
-                        System.out.println("-".repeat(40));
-                        for (Products p : product5)
-                        {
-                            System.out.printf("%-20s ₹%-19.2f%n", p.productName,p.price);
+                        if(od.productVerification(name5)) {
+                            System.out.print("New Price:");
+                            Double price4 = sc.nextDouble();
+                            System.out.println("Updated Details:");
+                            var product5 = pd.changePrice(name5, price4);
+                            System.out.printf("%-20s %-20s%n", "Product", "Price");
+                            System.out.println("-".repeat(40));
+                            for (Products p : product5) {
+                                System.out.printf("%-20s ₹%-19.2f%n", p.productName, p.price);
+                            }
+                            System.out.println("\n");
+                            break;
                         }
-                        System.out.println("\n");
-                        break;
+                        else
+                        {
+                            System.out.println("No such product exists.");
+                            break;
+                        }
                     case 6:
                         System.out.println("Products with less than 20 stock:");
                         var product6 = pd.lowStockProducts();
@@ -924,23 +975,24 @@ public class GroceryInventory2
                                 System.out.println("Enter product id of item you need (Enter 0 if done ordering):");
                                 int id = sc.nextInt();
                                 String productName = od.productName(id);
-                                productNames.add(productName);
-                                if (id == 0)
+                                if(od.productVerification(productName) || id == 0)
                                 {
-                                    i = 0;
+                                    productNames.add(productName);
+                                    if (id == 0) {
+                                        i = 0;
+                                    } else {
+                                        System.out.println("Enter quantity:");
+                                        int quantity = sc.nextInt();
+                                        if (quantity <= stock) {
+                                            od.order(Name, id, quantity);
+                                        } else {
+                                            System.out.println("Product out of stock.");
+                                        }
+                                    }
                                 }
                                 else
                                 {
-                                    System.out.println("Enter quantity:");
-                                    int quantity = sc.nextInt();
-                                    if(quantity<=stock)
-                                    {
-                                        od.order(Name, id, quantity);
-                                    }
-                                    else
-                                    {
-                                        System.out.println("Product out of stock.");
-                                    }
+                                    System.out.println("No such product id exists.");
                                 }
                             }
                             od.showCart();
